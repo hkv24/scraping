@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node index.js",
+    "build": "npm ci --omit=dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
