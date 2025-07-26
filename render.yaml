@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: scraping-service
+    runtime: node
+    plan: starter
+    buildCommand: npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    scaling:
+      minInstances: 1
+      maxInstances: 1
