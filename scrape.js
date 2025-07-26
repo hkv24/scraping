@@ -16,12 +16,41 @@ const scrape = async (url) => {
             '--no-first-run',
             '--no-zygote',
             '--single-process',
-            '--disable-gpu'
-        ]
+            '--disable-gpu',
+            '--disable-web-security',
+            '--disable-features=VizDisplayCompositor',
+            '--disable-background-timer-throttling',
+            '--disable-backgrounding-occluded-windows',
+            '--disable-renderer-backgrounding',
+            '--disable-extensions',
+            '--disable-plugins',
+            '--disable-default-apps',
+            '--disable-hang-monitor',
+            '--disable-prompt-on-repost',
+            '--disable-sync',
+            '--metrics-recording-only',
+            '--safebrowsing-disable-auto-update',
+            '--enable-automation',
+            '--password-store=basic',
+            '--use-mock-keychain'
+        ],
+        ignoreDefaultArgs: ['--disable-extensions'],
+        timeout: 60000
     })
     try {
         const page = await browser.newPage()
-        await page.goto(url, { waitUntil: 'domcontentloaded' })
+        
+        // Set page timeouts and configurations
+        await page.setDefaultNavigationTimeout(30000)
+        await page.setDefaultTimeout(30000)
+        
+        // Set user agent to avoid detection
+        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36')
+        
+        await page.goto(url, { 
+            waitUntil: 'domcontentloaded',
+            timeout: 30000
+        })
 
         const metadata = await page.evaluate(() => {
             const title = document.querySelector('title')?.innerText
@@ -39,9 +68,14 @@ const scrape = async (url) => {
         ])
         return { ...metadata, logo, colour }
     } catch (err) {
-        throw err
+        console.error('Scraping error:', err.message)
+        throw new Error(`Failed to scrape website: ${err.message}`)
     } finally {
-        await browser.close()
+        try {
+            await browser.close()
+        } catch (closeError) {
+            console.error('Error closing browser:', closeError.message)
+        }
     }
 }
 

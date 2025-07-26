@@ -9,7 +9,12 @@ const colourPalletScraper = async (browser, url) => {
   let page;
   try {
     page = await browser.newPage()
-    await page.goto(url, { waitUntil: 'domcontentloaded' })
+    await page.setDefaultNavigationTimeout(30000)
+    await page.setDefaultTimeout(30000)
+    await page.goto(url, { 
+      waitUntil: 'domcontentloaded',
+      timeout: 30000 
+    })
 
     await page.setViewport({ width: 1200, height: 800 })
 
