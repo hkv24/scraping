@@ -23,7 +23,7 @@ const logoScraper = async (page) => {
         results.push(possibleLogo.src)
       }
 
-      return results
+      return results.filter(src => /\.(jpg|jpeg|png|webp)(\?|$)/i.test(src))
     })
 
     return logoUrls

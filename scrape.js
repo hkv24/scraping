@@ -58,6 +58,7 @@ const scrape = async (url) => {
             const allImages = Array.from(document.querySelectorAll('img'))
                 .filter(img => img.naturalWidth >= 64 && img.naturalHeight >= 64)
                 .map(img => img.src)
+                .filter(src => /\.(jpg|jpeg|png|webp)(\?|$)/i.test(src))
             return { title, description, allImages }
         })
 
