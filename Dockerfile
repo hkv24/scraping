@@ -20,6 +20,10 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
+# Set environment variables
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
+
 # Install dependencies
 RUN npm install
 
@@ -36,7 +40,7 @@ RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
 USER pptruser
 
 # Expose port
-EXPOSE 3001
+EXPOSE 10000
 
 # Start the application
 CMD ["npm", "start"]

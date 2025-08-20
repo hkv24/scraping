@@ -1,22 +1,14 @@
 services:
   - type: web
     name: scraping-service
-    runtime: node
+    runtime: docker
     plan: starter
-    buildCommand: |
-      npm install &&
-      npx puppeteer browsers install chrome
-    startCommand: npm start
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 10000
-      - key: PUPPETEER_SKIP_DOWNLOAD
-        value: "false"
-      - key: PUPPETEER_CACHE_DIR
-        value: /opt/render/.cache/puppeteer
     scaling:
       minInstances: 1
       maxInstances: 1
