@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "build": "npm install",
+    "postinstall": "npx puppeteer browsers install chrome",
     "dev": "node index.js",
     "security-check": "npm audit --audit-level=moderate",
     "fix-vulnerabilities": "npm audit fix --force",
